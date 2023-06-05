@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getUsers().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
-                adapter.submitList(users);
+                adapter.submitList(new ArrayList<>(users));
                 if (users.size() > 0) {
                     txtEmptyList.setVisibility(View.GONE);
                 } else {
