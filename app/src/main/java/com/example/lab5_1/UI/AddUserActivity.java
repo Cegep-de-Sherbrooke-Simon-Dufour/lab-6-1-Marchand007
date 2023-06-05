@@ -1,4 +1,4 @@
-package com.example.lab5_1;
+package com.example.lab5_1.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,12 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lab5_1.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.intellij.lang.annotations.Pattern;
 
 import java.util.ArrayList;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class AddUserActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +56,10 @@ public class AddUserActivity extends AppCompatActivity {
             if (nom.getText().toString().length() == 0) {
                 Toast.makeText(getApplicationContext(), "Nom requis",
                         Toast.LENGTH_LONG).show();
-            }
-            else if (email.getText().toString().length() == 0) {
+            } else if (email.getText().toString().length() == 0) {
                 Toast.makeText(getApplicationContext(), "Email requis",
                         Toast.LENGTH_LONG).show();
-            }
-             else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
 
                 Toast.makeText(getApplicationContext(), "Email non valide",
                         Toast.LENGTH_LONG).show();

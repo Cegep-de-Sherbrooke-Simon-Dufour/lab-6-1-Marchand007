@@ -2,27 +2,24 @@ package com.example.lab5_1;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.example.lab5_1.Data.User;
 
 public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
 
 
-    public RecyclerCallback<User> callback = (U) -> {};
+    public RecyclerCallback<User> callback = (U) -> {
+    };
 
     public UserAdapter() {
         super(new DiffUtil.ItemCallback<User>() {
@@ -75,9 +72,10 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 callback.returnValue(user);
-                            }})
-                        .setNegativeButton(R.string.confirmnodelete,new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            }
+                        })
+                        .setNegativeButton(R.string.confirmnodelete, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         }).show();
