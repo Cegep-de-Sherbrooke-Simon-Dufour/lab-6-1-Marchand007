@@ -7,6 +7,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,56 +31,26 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
-
-    private UserAdapter adapter = new UserAdapter();
-
+    NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        UserListViewModel viewModel = new ViewModelProvider(this).get(UserListViewModel.class);
+        setSupportActionBar(findViewById(R.id.toolbar));
 
-        viewModel.addUser("Maxime Marchand", "m.marchand22@hotmail.com");
-        viewModel.addUser("Francis Maynard", "f.maynard@hotmail.com");
-        viewModel.addUser("Raphael Chenard Lamothe", "r.chenard.lamothe@hotmail.com");
+        NavHostFragment navHostFragment = (NavHostFragment)
+                getSupportFragmentManager().findFragmentById(R.id.userlist_fragment_container);
+        if (navHostFragment != null) {
+            navController = navHostFragment.getNavController();
+        }
 
-        RecyclerView recyclerView = findViewById(R.id.RecylclerView_user);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-        TextView txtEmptyList = findViewById(R.id.textEmptyList);
+        NavigationUI.setupActionBarWithNavController(this, navController);
+    }
 
-        adapter.callback = (user) -> {
-            viewModel.removeUser(user);
-        };
-        viewModel.getUsers().observe(this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(List<User> users) {
-                adapter.submitList(new ArrayList<>(users));
-                if (users.size() > 0) {
-                    txtEmptyList.setVisibility(View.GONE);
-                } else {
-                    txtEmptyList.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        ActivityResultLauncher<Intent> mGetContent = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == RESULT_OK) {
-                            Intent data = result.getData();
-                            viewModel.addUser(data.getStringExtra("name"), data.getStringExtra("email"));
-                        }
-                    }
-                });
-
-        FloatingActionButton addbtn = findViewById(R.id.addbutton);
-        addbtn.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AddUserActivity.class);
-            mGetContent.launch(intent);
-        });
+    @Override
+    public boolean onSupportNavigateUp() {
+        navController.navigateUp();
+        return super.onSupportNavigateUp();
     }
 }

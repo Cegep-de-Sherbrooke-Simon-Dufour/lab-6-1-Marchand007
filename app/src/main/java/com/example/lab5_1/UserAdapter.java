@@ -22,7 +22,7 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
     };
 
     public UserAdapter() {
-        super(new DiffUtil.ItemCallback<User>() {
+        super(new DiffUtil.ItemCallback<>() {
             @Override
             public boolean areItemsTheSame(@NonNull User oldItem, @NonNull User newItem) {
                 return oldItem == newItem;

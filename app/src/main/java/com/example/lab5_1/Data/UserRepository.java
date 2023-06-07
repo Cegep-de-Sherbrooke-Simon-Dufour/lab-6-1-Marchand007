@@ -17,6 +17,9 @@ public class UserRepository {
 
     @Inject
     public UserRepository() {
+        addUser(new User("Maxime Marchand", "m.marchand22@hotmail.com"));
+        addUser(new User("Francis Maynard", "f.maynard@hotmail.com"));
+        addUser(new User("Raphael Chenard Lamothe", "r.chenard.lamothe@hotmail.com"));
     }
 
     public void addUser(User user) {
