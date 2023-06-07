@@ -1,4 +1,4 @@
-package com.example.lab5_1;
+package com.example.lab5_1.Data;
 
 import java.io.Serializable;
 
