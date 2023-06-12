@@ -1,5 +1,7 @@
 package com.example.lab5_1.UI;
 
+import android.widget.Toast;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -25,9 +27,7 @@ public class UserListViewModel extends ViewModel {
         repository.addUser(new User(name, email));
     }
 
-    public void removeUser(User user) {
-        repository.removeUser(user);
-    }
+    public void removeUser(User user) { repository.removeUser(user); }
 
     public LiveData<List<User>> getUsers() {
         return repository.getUsers();
