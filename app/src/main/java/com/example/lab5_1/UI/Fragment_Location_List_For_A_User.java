@@ -2,12 +2,15 @@ package com.example.lab5_1.UI;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,6 +37,7 @@ public class Fragment_Location_List_For_A_User extends Fragment {
     private LocationAdapter adapter = new LocationAdapter();
     private TextView _nomUser;
     private TextView _emailUser;
+    private ImageView userImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,8 +50,11 @@ public class Fragment_Location_List_For_A_User extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         _emailUser = view.findViewById(R.id.user_email_list);
         _nomUser = view.findViewById(R.id.user_name_list);
+        userImage = view.findViewById(R.id.user_image_location);
         _emailUser.setText(getArguments().getString("userEmail"));
         _nomUser.setText(getArguments().getString("userNom"));
+        userImage.setImageURI(Uri.parse(getArguments().getString("userImage")));
+
         UserListViewModel viewModel = new ViewModelProvider(requireActivity()).get(UserListViewModel.class);
 
         RecyclerView recyclerView = view.findViewById(R.id.RecylclerView_Location);

@@ -10,4 +10,6 @@
     <string name="fragmentListUserName">Liste de contact</string>
     <string name="fragmentAddUserName">Ajouter un contact</string>
     <string name="fragmentListLocation">Locations</string>
+    <string name="PrendrePhoto">Prendre une photo</string>
+    <string name="ChoisirPhoto">Choisir une photo existante</string>
 </resources>

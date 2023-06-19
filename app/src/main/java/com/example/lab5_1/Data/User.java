@@ -17,15 +17,18 @@ public class User implements Serializable {
     @NonNull
     private String email;
 
-    public User(String nom, @NonNull String email) {
+    private String uri;
+
+    public User(String nom, @NonNull String email, String uri) {
         this.nom = nom;
         this.email = email;
+        this.uri = uri;
     }
 
+    public String getUri() { return uri; }
     public String getNom() {
         return nom;
     }
-
     @NonNull
     public String getEmail() {
         return email;

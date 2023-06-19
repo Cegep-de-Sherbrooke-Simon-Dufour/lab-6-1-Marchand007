@@ -2,11 +2,14 @@ package com.example.lab5_1;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -57,6 +60,7 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
 
         private TextView _nom;
         private TextView _email;
+        private ImageView userImage;
         private User user;
 
 
@@ -64,6 +68,7 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
             super(actualView);
             _nom = actualView.findViewById(R.id.user_name);
             _email = actualView.findViewById(R.id.user_email);
+            userImage = actualView.findViewById(R.id.user_image_list);
 
             actualView.setOnClickListener(v -> {
                 PopupMenu popupMenu = new PopupMenu(actualView.getContext(), actualView);
@@ -87,6 +92,8 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
                         Bundle bundle = new Bundle();
                         bundle.putString("userEmail", user.getEmail());
                         bundle.putString("userNom", user.getNom());
+                        bundle.putString("userImage", user.getUri());
+                        Log.i("URI", user.getUri());
                         Navigation.findNavController(v).navigate(R.id.action_fragment_User_List_to_fragment_Location_List_For_A_User, bundle);
                     }
                     return true;
@@ -115,6 +122,7 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
         public void bind(User user) {
             _nom.setText(user.getNom());
             _email.setText(user.getEmail());
+            userImage.setImageURI(Uri.parse(user.getUri()));
             this.user = user;
         }
 
