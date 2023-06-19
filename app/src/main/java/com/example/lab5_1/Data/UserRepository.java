@@ -6,9 +6,13 @@ import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
@@ -16,32 +20,17 @@ import javax.inject.Singleton;
 
 @Singleton
 public class UserRepository {
-
-    private ArrayList<User> users = new ArrayList<>();
-    private final MutableLiveData<List<User>> userLiveData = new MutableLiveData<>(users);
     private final UserDao userDAO;
-    private final UserDatabase myDatabase;
 
     @Inject
     public UserRepository(UserDatabase database) {
         userDAO = database.getUserDao();
-        myDatabase = database;
     }
 
     public void addUser(User user) {
         Executors.newSingleThreadExecutor().execute(() -> {
-            myDatabase.beginTransaction();
-            try {
                 userDAO.addUser(user);
-                myDatabase.setTransactionSuccessful();
-            } catch (Exception E) {
-                Log.e("INSERT ERROR", "addUser: Utilisateur existant ");
-            } finally {
-                myDatabase.endTransaction();
-            }
         });
-
-
     }
 
     public void removeUser(User user) {
@@ -49,8 +38,30 @@ public class UserRepository {
             userDAO.deleteUser(user);
         });
     }
+    public void removeUserWithEmail(String userEmail) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            userDAO.deleteUserWithEmail(userEmail);
+        });
+    }
 
     public LiveData<List<User>> getUsers() {
         return userDAO.getAllUser();
     }
+
+    public LiveData<List<Location>> getLocationsFromAUser(String userEmail) {
+       return userDAO.getLocationsFromAUser(userEmail);
+    };
+
+    public void addLocation(Location location) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+        userDAO.addLocation(location);
+        });
+    };
+
+    public void deleteLocation(Location location) {
+
+            Executors.newSingleThreadExecutor().execute(() -> {
+        userDAO.deleteLocation(location);
+            });
+    };
 }

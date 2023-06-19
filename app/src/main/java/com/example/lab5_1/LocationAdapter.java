@@ -2,7 +2,6 @@ package com.example.lab5_1;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,29 +10,33 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lab5_1.Data.Location;
 import com.example.lab5_1.Data.User;
 
-public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
+public class LocationAdapter extends ListAdapter<Location, LocationAdapter.ViewHolder> {
 
 
-    public RecyclerCallback<User> callback = (U) -> {
+    public RecyclerCallback<Location> callbackDeleteLocation = (U) -> {
+    };
+    public RecyclerCallback<String> callbackDeleteUserWithEmail = (U) -> {
+    };
+    public RecyclerCallback<Location> callbackAdd = (U) -> {
     };
 
-    public UserAdapter() {
+    public LocationAdapter() {
         super(new DiffUtil.ItemCallback<>() {
             @Override
-            public boolean areItemsTheSame(@NonNull User oldItem, @NonNull User newItem) {
+            public boolean areItemsTheSame(@NonNull Location oldItem, @NonNull Location newItem) {
                 return oldItem == newItem;
             }
 
             @Override
-            public boolean areContentsTheSame(@NonNull User oldItem, @NonNull User newItem) {
-                return oldItem.getNom().equals(newItem.getNom()) && oldItem.getEmail().equals(newItem.getNom());
+            public boolean areContentsTheSame(@NonNull Location oldItem, @NonNull Location newItem) {
+                return oldItem.getNom().equals(newItem.getNom()) && oldItem.getUserEmail().equals(newItem.getUserEmail());
             }
         });
 
@@ -42,7 +45,7 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_item, parent, false);
         return new ViewHolder(view);
 
     }
@@ -55,53 +58,46 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView _nom;
-        private TextView _email;
-        private User user;
+        private TextView _nomLocation;
+        private Location location;
 
 
         public ViewHolder(@NonNull View actualView) {
             super(actualView);
-            _nom = actualView.findViewById(R.id.user_name);
-            _email = actualView.findViewById(R.id.user_email);
+            _nomLocation = actualView.findViewById(R.id.location_name);
 
             actualView.setOnClickListener(v -> {
                 PopupMenu popupMenu = new PopupMenu(actualView.getContext(), actualView);
-//
-                popupMenu.getMenuInflater().inflate(R.menu.popupmenu_users, popupMenu.getMenu());
+                popupMenu.getMenuInflater().inflate(R.menu.popupmenu_locations, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(menuItem -> {
 
                     if (menuItem.getTitle().equals("Supprimer")) {
-                        new AlertDialog.Builder(actualView.getContext()).setTitle("Confirmation de suppresion").setMessage("Êtes-vous vraiment sur de vouloir supprimer " + _nom.getText())
+                        new AlertDialog.Builder(actualView.getContext()).setTitle("Confirmation de suppresion").setMessage("Êtes-vous vraiment sur de vouloir supprimer " + _nomLocation.getText())
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .setPositiveButton(R.string.confirmdelete, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        callback.returnValue(user);
+                                        callbackDeleteLocation.returnValue(location);
                                     }
                                 }).setNegativeButton(R.string.confirmnodelete, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
                                 }).show();
-                    } else if ((menuItem.getTitle().equals("Locations"))) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("userEmail", user.getEmail());
-                        bundle.putString("userNom", user.getNom());
-                        Navigation.findNavController(v).navigate(R.id.action_fragment_User_List_to_fragment_Location_List_For_A_User, bundle);
                     }
+                    // Toast message on menu item clicked
+                    //Toast.makeText(actualView.getContext(), "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                     return true;
                 });
                 popupMenu.show();
             });
 
-            ImageButton deletebtn = actualView.findViewById(R.id.deletebutton);
+            ImageButton deletebtn = actualView.findViewById(R.id.deletebutton2);
             deletebtn.setOnClickListener(view ->
-
             {
-                new AlertDialog.Builder(actualView.getContext()).setTitle("Confirmation de suppresion").setMessage("Êtes-vous vraiment sur de vouloir supprimer " + _nom.getText()).setIcon(android.R.drawable.ic_dialog_alert).setPositiveButton(R.string.confirmdelete, new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(actualView.getContext()).setTitle("Confirmation de suppresion").setMessage("Êtes-vous vraiment sur de vouloir supprimer " + _nomLocation.getText()).setIcon(android.R.drawable.ic_dialog_alert).setPositiveButton(R.string.confirmdelete, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        callback.returnValue(user);
+                        callbackDeleteLocation.returnValue(location);
                     }
                 }).setNegativeButton(R.string.confirmnodelete, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -109,13 +105,11 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
                     }
                 }).show();
             });
-
         }
 
-        public void bind(User user) {
-            _nom.setText(user.getNom());
-            _email.setText(user.getEmail());
-            this.user = user;
+        public void bind(Location location) {
+            _nomLocation.setText(location.getNom());
+            this.location = location;
         }
 
     }

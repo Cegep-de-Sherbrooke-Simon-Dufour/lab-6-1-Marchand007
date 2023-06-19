@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.lab5_1.Data.*;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -29,8 +30,22 @@ public class UserListViewModel extends ViewModel {
 
     public void removeUser(User user) { repository.removeUser(user); }
 
+    public void removeUserWithEmail(String userEmail) { repository.removeUserWithEmail(userEmail); }
+
     public LiveData<List<User>> getUsers() {
         return repository.getUsers();
     }
+
+    public LiveData<List<Location>> getLocationsFromAUser(String userEmail) {
+        return repository.getLocationsFromAUser(userEmail);
+    };
+
+    public void addLocation(Location location) {
+        repository.addLocation(location);
+    };
+
+    public void deleteLocation(Location location) {
+        repository.deleteLocation(location);
+    };
 
 }

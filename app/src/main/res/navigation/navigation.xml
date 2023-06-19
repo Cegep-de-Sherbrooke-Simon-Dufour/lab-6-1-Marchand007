@@ -18,10 +18,25 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/fragment_User_List" />
+        <action
+            android:id="@+id/action_fragment_User_List_to_fragment_Location_List_For_A_User"
+            app:destination="@id/fragment_Location_List_For_A_User"
+            app:popUpTo="@id/fragment_User_List" />
     </fragment>
     <fragment
         android:id="@+id/fragment_Add_User"
         android:name="com.example.lab5_1.UI.Fragment_Add_User"
         android:label="@string/fragmentAddUserName"
         tools:layout="@layout/fragment__add__use_r" />
+    <fragment
+        android:id="@+id/fragment_Location_List_For_A_User"
+        android:name="com.example.lab5_1.UI.Fragment_Location_List_For_A_User"
+        android:label="@string/fragmentListLocation" >
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+        <argument
+            android:name="userNom"
+            app:argType="string" />
+    </fragment>
 </navigation>

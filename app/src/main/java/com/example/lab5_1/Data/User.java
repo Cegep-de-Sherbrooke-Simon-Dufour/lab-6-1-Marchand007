@@ -26,6 +26,7 @@ public class User implements Serializable {
         return nom;
     }
 
+    @NonNull
     public String getEmail() {
         return email;
     }
