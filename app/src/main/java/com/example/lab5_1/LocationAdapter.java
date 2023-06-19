@@ -22,10 +22,6 @@ public class LocationAdapter extends ListAdapter<Location, LocationAdapter.ViewH
 
     public RecyclerCallback<Location> callbackDeleteLocation = (U) -> {
     };
-    public RecyclerCallback<String> callbackDeleteUserWithEmail = (U) -> {
-    };
-    public RecyclerCallback<Location> callbackAdd = (U) -> {
-    };
 
     public LocationAdapter() {
         super(new DiffUtil.ItemCallback<>() {

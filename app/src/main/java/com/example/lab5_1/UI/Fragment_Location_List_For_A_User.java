@@ -54,15 +54,9 @@ public class Fragment_Location_List_For_A_User extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        adapter.callbackDeleteUserWithEmail = (userEmail) -> {
 
-            viewModel.removeUserWithEmail(userEmail);
-        };
         adapter.callbackDeleteLocation = (location) -> {
             viewModel.deleteLocation(location);
-        };
-        adapter.callbackAdd = (location) -> {
-            viewModel.addLocation(location);
         };
         viewModel.getLocationsFromAUser(getArguments().getString("userEmail")).observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
             @Override
@@ -75,7 +69,7 @@ public class Fragment_Location_List_For_A_User extends Fragment {
         addbtn.setOnClickListener(v -> {
             EditText locationName = view.findViewById(R.id.input_nom_location_to_add);
             Location locationToAdd = new Location(locationName.getText().toString(), getArguments().getString("userEmail"));
-            adapter.callbackAdd.returnValue(locationToAdd);
+            viewModel.addLocation(locationToAdd);
             locationName.setText("");
         });
 
@@ -85,7 +79,7 @@ public class Fragment_Location_List_For_A_User extends Fragment {
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(R.string.confirmdelete, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            adapter.callbackDeleteUserWithEmail.returnValue(_emailUser.getText().toString());
+                            viewModel.removeUserWithEmail(Fragment_Location_List_For_A_User.this._emailUser.getText().toString());
                             NavController navController = Navigation.findNavController(view);
                             navController.navigateUp();
                         }
