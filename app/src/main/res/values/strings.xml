@@ -2,6 +2,7 @@
     <string name="app_name">Lab6-1</string>
     <string name="btnadd">+</string>
     <string name="btnadduser">Ajouter</string>
+    <string name="updateuser">Mettre a jour</string>
     <string name="btncanceluser">Annuler</string>
     <string name="confirmnodelete">Annuler</string>
     <string name="confirmdelete">Supprimer</string>

@@ -3,6 +3,14 @@ package com.example.lab5_1.UI;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Patterns;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
@@ -14,17 +22,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
-import android.util.Log;
-import android.util.Patterns;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.lab5_1.R;
 
@@ -32,14 +29,19 @@ import java.io.File;
 import java.util.UUID;
 
 
-public class Fragment_Add_User extends Fragment {
+public class Fragment_User_Info extends Fragment {
 
     private Uri uri;
+
+    EditText inputNom;
+    EditText inputEmail;
+    ImageView userImagePreview;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment__add__use_r, container, false);
+        return inflater.inflate(R.layout.fragment_user_info, container, false);
     }
 
     @Override
@@ -48,11 +50,21 @@ public class Fragment_Add_User extends Fragment {
 
         UserListViewModel viewModel = new ViewModelProvider(requireActivity()).get(UserListViewModel.class);
 
-        Button btnAdd = view.findViewById(R.id.buttonAddUser);
-        Button btnCancel = view.findViewById(R.id.buttonCancelUser);
-        Button btnPrendrePhoto = view.findViewById(R.id.btnPrendrePhoto);
-        Button btnChoisirPhoto = view.findViewById(R.id.btnChoisirPhoto);
-        ImageView userImagePreview = view.findViewById(R.id.user_image_preview);
+        Button btnUpdate = view.findViewById(R.id.buttonUpdateUser_info);
+        Button btnCancel = view.findViewById(R.id.buttonCancelUser_info);
+        Button btnPrendrePhoto = view.findViewById(R.id.btnPrendrePhoto_info);
+        Button btnChoisirPhoto = view.findViewById(R.id.btnChoisirPhoto_info);
+        inputNom = view.findViewById(R.id.nameinput_info);
+        inputEmail = view.findViewById(R.id.emailinput_info);
+        userImagePreview = view.findViewById(R.id.user_image_preview_info);
+
+        inputNom.setText(getArguments().getString("userNom"));
+        inputEmail.setText(getArguments().getString("userEmail"));
+        if (getArguments().getString("userImage") != null) {
+            uri = Uri.parse(getArguments().getString("userImage"));
+            userImagePreview.setImageURI(uri);
+        }
+        inputEmail.setEnabled(false);
 
         btnCancel.setOnClickListener(v -> {
 
@@ -60,25 +72,19 @@ public class Fragment_Add_User extends Fragment {
             navController.navigateUp();
         });
 
-        btnAdd.setOnClickListener(v -> {
+        btnUpdate.setOnClickListener(v -> {
 
-            EditText nom = view.findViewById(R.id.nameinput);
-            EditText email = view.findViewById(R.id.emailinput);
-            if (nom.getText().toString().length() == 0) {
+            if (inputNom.getText().toString().length() == 0) {
                 Toast.makeText(getContext(), "Nom requis",
                         Toast.LENGTH_LONG).show();
-            } else if (email.getText().toString().length() == 0) {
+            } else if (inputEmail.getText().toString().length() == 0) {
                 Toast.makeText(getContext(), "Email requis",
                         Toast.LENGTH_LONG).show();
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail.getText().toString()).matches()) {
                 Toast.makeText(getContext(), "Email non valide",
                         Toast.LENGTH_LONG).show();
             } else {
-                if (uri == null) {
-                    viewModel.addUser(nom.getText().toString(), email.getText().toString());
-                } else {
-                    viewModel.addUser(nom.getText().toString(), email.getText().toString(), uri.toString());
-                }
+                viewModel.updateUser(inputNom.getText().toString(), inputEmail.getText().toString(), uri.toString());
                 Navigation.findNavController(view).navigateUp();
             }
         });
@@ -106,12 +112,14 @@ public class Fragment_Add_User extends Fragment {
                         new ActivityResultContracts.PickVisualMedia(),
                         uri -> {
                             userImagePreview.setImageURI(uri);
+                            int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                            requireContext().getContentResolver().takePersistableUriPermission(uri,
+                                    flags);
                         });
         btnChoisirPhoto.setOnClickListener(v -> {
             galleryResultLauncher.launch(new PickVisualMediaRequest.Builder()
                     .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                     .build());
-
         });
     }
 }

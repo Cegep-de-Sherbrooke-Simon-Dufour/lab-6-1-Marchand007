@@ -33,6 +33,12 @@ public class UserRepository {
         });
     }
 
+    public void updateUser(String name, String email, String uri) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            userDAO.updateUser(name, email, uri);
+        });
+    }
+
     public void removeUser(User user) {
         Executors.newSingleThreadExecutor().execute(() -> {
             userDAO.deleteUser(user);

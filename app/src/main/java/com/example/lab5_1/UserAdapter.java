@@ -93,8 +93,13 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
                         bundle.putString("userEmail", user.getEmail());
                         bundle.putString("userNom", user.getNom());
                         bundle.putString("userImage", user.getUri());
-                        Log.i("URI", user.getUri());
                         Navigation.findNavController(v).navigate(R.id.action_fragment_User_List_to_fragment_Location_List_For_A_User, bundle);
+                    } else if ((menuItem.getTitle().equals("Modifier"))) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userEmail", user.getEmail());
+                        bundle.putString("userNom", user.getNom());
+                        bundle.putString("userImage", user.getUri());
+                        Navigation.findNavController(v).navigate(R.id.action_fragment_User_List_to_fragment_User_Info, bundle);
                     }
                     return true;
                 });
@@ -122,7 +127,11 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.ViewHolder> {
         public void bind(User user) {
             _nom.setText(user.getNom());
             _email.setText(user.getEmail());
-            userImage.setImageURI(Uri.parse(user.getUri()));
+            if (user.getUri() != null) {
+                userImage.setImageURI(Uri.parse(user.getUri()));
+            } else {
+                userImage.setImageResource(R.drawable.userimage);
+            }
             this.user = user;
         }
 

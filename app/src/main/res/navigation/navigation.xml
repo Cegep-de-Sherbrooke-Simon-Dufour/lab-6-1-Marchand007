@@ -22,6 +22,10 @@
             android:id="@+id/action_fragment_User_List_to_fragment_Location_List_For_A_User"
             app:destination="@id/fragment_Location_List_For_A_User"
             app:popUpTo="@id/fragment_User_List" />
+        <action
+            android:id="@+id/action_fragment_User_List_to_fragment_User_Info"
+            app:destination="@id/fragment_User_Info"
+            app:popUpTo="@id/fragment_User_List" />
     </fragment>
     <fragment
         android:id="@+id/fragment_Add_User"
@@ -37,6 +41,17 @@
             app:argType="string" />
         <argument
             android:name="userNom"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_User_Info"
+        android:name="com.example.lab5_1.UI.Fragment_User_Info"
+        android:label="Informations utilisateur">
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+        <argument
+            android:name="userName"
             app:argType="string" />
     </fragment>
 </navigation>

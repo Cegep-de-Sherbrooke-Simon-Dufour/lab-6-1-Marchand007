@@ -22,6 +22,9 @@ public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public void addUser(User user);
 
+    @Query("UPDATE User SET nom = :name, uri = :uri WHERE email = :email")
+    public void updateUser(String name, String email, String uri);
+
     @Delete
     public void deleteUser(User user);
 

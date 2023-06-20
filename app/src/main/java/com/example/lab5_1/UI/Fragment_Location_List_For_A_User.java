@@ -2,6 +2,7 @@ package com.example.lab5_1.UI;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class Fragment_Location_List_For_A_User extends Fragment {
     private TextView _nomUser;
     private TextView _emailUser;
     private ImageView userImage;
+    private Uri uri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +55,12 @@ public class Fragment_Location_List_For_A_User extends Fragment {
         userImage = view.findViewById(R.id.user_image_location);
         _emailUser.setText(getArguments().getString("userEmail"));
         _nomUser.setText(getArguments().getString("userNom"));
-        userImage.setImageURI(Uri.parse(getArguments().getString("userImage")));
+        if (getArguments().getString("userImage") != null) {
+            uri = Uri.parse(getArguments().getString("userImage"));
+            userImage.setImageURI(uri);
+        } else {
+            userImage.setImageResource(R.drawable.userimage);
+        }
 
         UserListViewModel viewModel = new ViewModelProvider(requireActivity()).get(UserListViewModel.class);
 
