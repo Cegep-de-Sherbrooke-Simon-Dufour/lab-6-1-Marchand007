@@ -1,6 +1,5 @@
 package com.example.lab5_1.UI;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,10 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.lab5_1.Data.User;
@@ -45,7 +40,7 @@ public class Fragment_User_List extends Fragment {
 
         UserListViewModel viewModel = new ViewModelProvider(requireActivity()).get(UserListViewModel.class);
 
-        RecyclerView recyclerView = view.findViewById(R.id.RecylclerView_user);
+        RecyclerView recyclerView = view.findViewById(R.id.RecylclerView_User);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         TextView txtEmptyList = view.findViewById(R.id.textEmptyList);

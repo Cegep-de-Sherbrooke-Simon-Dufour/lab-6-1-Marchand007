@@ -59,7 +59,6 @@ public class Fragment_Add_User extends Fragment {
                 Toast.makeText(getContext(), "Email requis",
                         Toast.LENGTH_LONG).show();
             } else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
-
                 Toast.makeText(getContext(), "Email non valide",
                         Toast.LENGTH_LONG).show();
             } else {

@@ -9,4 +9,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="fragmentListUserName">Liste de contact</string>
     <string name="fragmentAddUserName">Ajouter un contact</string>
+    <string name="fragmentListLocation">Locations</string>
 </resources>

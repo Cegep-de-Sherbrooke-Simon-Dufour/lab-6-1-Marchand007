@@ -12,7 +12,7 @@
         tools:context=".UI.MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecylclerView_user"
+            android:id="@+id/RecylclerView_User"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
