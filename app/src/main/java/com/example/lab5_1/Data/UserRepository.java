@@ -1,10 +1,15 @@
 package com.example.lab5_1.Data;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,25 +19,38 @@ public class UserRepository {
 
     private ArrayList<User> users = new ArrayList<>();
     private final MutableLiveData<List<User>> userLiveData = new MutableLiveData<>(users);
+    private final UserDao userDAO;
+    private final UserDatabase myDatabase;
 
     @Inject
-    public UserRepository() {
-        addUser(new User("Maxime Marchand", "m.marchand22@hotmail.com"));
-        addUser(new User("Francis Maynard", "f.maynard@hotmail.com"));
-        addUser(new User("Raphael Chenard Lamothe", "r.chenard.lamothe@hotmail.com"));
+    public UserRepository(UserDatabase database) {
+        userDAO = database.getUserDao();
+        myDatabase = database;
     }
 
     public void addUser(User user) {
-        users.add(user);
-        userLiveData.setValue(new ArrayList<>(users));
+        Executors.newSingleThreadExecutor().execute(() -> {
+            myDatabase.beginTransaction();
+            try {
+                userDAO.addUser(user);
+                myDatabase.setTransactionSuccessful();
+            } catch (Exception E) {
+                Log.e("INSERT ERROR", "addUser: Utilisateur existant ");
+            } finally {
+                myDatabase.endTransaction();
+            }
+        });
+
+
     }
 
     public void removeUser(User user) {
-        users.remove(user);
-        userLiveData.setValue(new ArrayList<>(users));
+        Executors.newSingleThreadExecutor().execute(() -> {
+            userDAO.deleteUser(user);
+        });
     }
 
     public LiveData<List<User>> getUsers() {
-        return userLiveData;
+        return userDAO.getAllUser();
     }
 }
