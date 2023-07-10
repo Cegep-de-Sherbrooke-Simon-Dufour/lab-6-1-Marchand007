@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/fragment_User_List">
+
+    <fragment
+        android:id="@+id/fragment_User_List"
+        android:name="com.example.lab5_1.UI.Fragment_User_List"
+        android:label="@string/fragmentListUserName"
+        tools:layout="@layout/fragment__user__list">
+        <action
+            android:id="@+id/action_fragment_User_List_to_fragment_Add_User"
+            app:destination="@id/fragment_Add_User"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/fragment_User_List" />
+        <action
+            android:id="@+id/action_fragment_User_List_to_fragment_Location_List_For_A_User"
+            app:destination="@id/fragment_Location_List_For_A_User"
+            app:popUpTo="@id/fragment_User_List" />
+        <action
+            android:id="@+id/action_fragment_User_List_to_fragment_User_Info"
+            app:destination="@id/fragment_User_Info"
+            app:popUpTo="@id/fragment_User_List" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_Add_User"
+        android:name="com.example.lab5_1.UI.Fragment_Add_User"
+        android:label="@string/fragmentAddUserName"
+        tools:layout="@layout/fragment__add__use_r" />
+    <fragment
+        android:id="@+id/fragment_Location_List_For_A_User"
+        android:name="com.example.lab5_1.UI.Fragment_Location_List_For_A_User"
+        android:label="@string/fragmentListLocation" >
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+        <argument
+            android:name="userNom"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_User_Info"
+        android:name="com.example.lab5_1.UI.Fragment_User_Info"
+        android:label="Informations utilisateur">
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
+    </fragment>
+</navigation>

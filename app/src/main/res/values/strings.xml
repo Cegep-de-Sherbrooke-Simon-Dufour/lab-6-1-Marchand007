@@ -1,9 +1,16 @@
 <resources>
-    <string name="app_name">Lab5-1</string>
+    <string name="app_name">Lab6-1</string>
     <string name="btnadd">+</string>
     <string name="btnadduser">Ajouter</string>
+    <string name="updateuser">Mettre a jour</string>
     <string name="btncanceluser">Annuler</string>
     <string name="confirmnodelete">Annuler</string>
     <string name="confirmdelete">Supprimer</string>
     <string name="textEmptyList">La liste est vide.\n Cliquez ici pour ajouter un contact -></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="fragmentListUserName">Liste de contact</string>
+    <string name="fragmentAddUserName">Ajouter un contact</string>
+    <string name="fragmentListLocation">Locations</string>
+    <string name="PrendrePhoto">Prendre une photo</string>
+    <string name="ChoisirPhoto">Choisir une photo existante</string>
 </resources>
